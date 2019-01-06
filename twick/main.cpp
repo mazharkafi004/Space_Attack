@@ -8,7 +8,7 @@ int main()
 {
     srand(time(0));
 
-    RenderWindow app(VideoMode(520, 450), "SPACE ATTACK!!!");
+    RenderWindow app(VideoMode(1120, 950), "SPACE ATTACK!!!");
     app.setFramerateLimit(60);
 
     Texture t1,t2,t3,t4;
@@ -20,22 +20,22 @@ int main()
 
     Sprite sBG(t2), sB(t3), sP(t4);
     Vector2f paddleposition;
-    sP.setPosition(300,440);
+    sP.setPosition(700,940);
 
 
     Sprite P[1000];
 
     int n=0;
-    for (int i=1;i<=10;i++)
-    for (int j=1;j<=10;j++)
+    for (int i=1;i<=17;i++)
+    for (int j=1;j<=15;j++)
       {
          P[n].setTexture(t1);
-         P[n].setPosition(i*43,j*20);
+         P[n].setPosition(i*60,j*30);
          n++;
       }
 
     float dx=6, dy=5;
-    float x=300, y=300;
+    float x=700, y=940;
 
     while (app.isOpen())
     {
@@ -58,13 +58,13 @@ int main()
         if ( FloatRect(x+3,y+3,6,6).intersects(P[i].getGlobalBounds()) )
              {P[i].setPosition(-100,0); dy=-dy;}
 
-    if (x<0 || x>520)  dx=-dx;
-    if (y>440 && y>=paddleposition.x && y<= paddleposition.x+99) dy=-dy;
+    if (x<0 || x>1120)  dx=-dx;
+    if (y>940 && y>=paddleposition.x && y<= paddleposition.x+99) dy=-dy;
 
-    if (Keyboard::isKeyPressed(Keyboard::Right)) sP.move(6,0);
-    if (Keyboard::isKeyPressed(Keyboard::Left)) sP.move(-6,0);
+    if (Keyboard::isKeyPressed(Keyboard::Right)) sP.move(9,0);
+    if (Keyboard::isKeyPressed(Keyboard::Left)) sP.move(-9,0);
 
-    if ( FloatRect(x,y,12,12).intersects(sP.getGlobalBounds()) ) dy=-(rand()%5+2);
+    if ( FloatRect(x,y,12,12).intersects(sP.getGlobalBounds()) ) dy=-(rand()%7);
 
     sB.setPosition(x,y);
 
