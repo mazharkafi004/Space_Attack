@@ -12,7 +12,7 @@
 using namespace std;
 using namespace sf;
 
-    RenderWindow Window(VideoMode(1120, 950), "SPACE ATTACK!!!");
+    RenderWindow Window(VideoMode(1120, 950), "WALL BREAKER!!!");
 
 
 bool isGameOver = false;
