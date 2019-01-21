@@ -15,11 +15,7 @@ using namespace sf;
     RenderWindow Window(VideoMode(1120, 950), "WALL BREAKER!!!");
 
 
-bool isGameOver = false;
 
-int score{ 0 };
-int level{ 1 };
-int button{ 0 };
 
 Music music;
 Music music2;
@@ -31,9 +27,7 @@ Texture texture;
 Sprite sprite;
 
 
-Text points;
-Text lvltxt;
-Font font;
+
 bool stopmusic = false;
 
 
@@ -43,7 +37,7 @@ bool stopmusic = false;
 int main()
 {
 
-    int Points=0;
+    int score=0;
 
 
     RenderWindow Window(VideoMode(1120, 950), "WALL BREAKER!!!");
@@ -59,26 +53,7 @@ int main()
 	game_music.setVolume(35);
 	Music gameover_music;
 
-	if(!stopmusic) game_music.play();
-
-	loading.loadFromFile("images/gameover.jpg");
-
-	RectangleShape loadingscreen;
-
-	Vector2f size1;
-	size1.x = 100, size1.y = 100;
-	loadingscreen.setTexture(&loading);
-	loadingscreen.setFillColor(Color::White);
-	loadingscreen.setScale({ 1,1 });
-
-	Sprite gameover;
-	Texture GMtexture;
-
-	GMtexture.loadFromFile("images/gameover_1.jpg");
-	gameover.setTexture(GMtexture);
-	gameover.setPosition(950/2.f -50, 1120/2.f);
-	gameover.setOrigin(202, 180);
-
+if(!stopmusic) game_music.play();
 
 
     Texture t1,t2,t3,t4;
@@ -93,8 +68,8 @@ int main()
 	sprite.setTexture(texture);
 
 
-	sf::Clock clock;
-	sf::Clock clock2;
+	//sf::Clock clock;
+	//sf::Clock clock2;
 	bool playscreen = false;
 
 	Text h1,m1,m2,m3;
@@ -312,16 +287,38 @@ int main()
     if ( FloatRect(x,y,12,12).intersects(sP.getGlobalBounds()) ) dy=-(rand()%5+2);
 
     sB.setPosition(x,y);
+   // if (sB.setPosition.y>1120)
+       Window.clear();
+        if(y>1120 ) {
+                Window.clear();
+Sprite gameover;
+	Texture GMtexture;
 
+	GMtexture.loadFromFile("images/gameover_1.jpg");
+	gameover.setTexture(GMtexture);
+	gameover.setPosition(1120,950);//2.f -50, 950/2.f);
+	gameover.setOrigin(1120, 950);
+	Window.draw(gameover);
+	Window.display();
     Window.clear();
+    Music game_music2;
+
+	game_music2.openFromFile("sounds/s_32.wav");
+	game_music2.setVolume(500);
+	//Music gameover_music;
+
+        }
+   // Window.clear();
     Window.draw(sBG);
     Window.draw(sB);
     Window.draw(sP);
+    //Window.draw(gameover);
 
     for (int i=0;i<n;i++)
      Window.draw(P[i]);
 
     Window.display();
+Window.clear();
 
 
     }
@@ -329,3 +326,4 @@ int main()
 
   return 0;
 }
+
