@@ -45,7 +45,9 @@ int main()
 
     game_music.openFromFile("music/music.ogg");
     game_music.setVolume(25);
-   
+   Music game_music2;
+    game_music2.openFromFile("music/GameOVER.ogg");
+    game_music2.setVolume(500);
 
 
     if(!stopmusic)
@@ -209,9 +211,8 @@ int main()
                 //if (Keyboard::isKeyPressed(Keyboard::Enter))
             {
 
-                m4.setString("CLEAR THE BRIRCKS");
-                stopmusic = true;
-                game_music.stop();
+                m4.setString("Use left and right arrow to move the paddle");
+              
             }
 
             //else //if (Keyboard::isKeyPressed(Keyboard::Enter))
@@ -356,15 +357,7 @@ int main()
             game_music.stop();
 
 
-Music game_music2;
 
-    
-    game_music2.openFromFile("music/GameOVER.ogg");
-    if(!stopmusic)
-        game_music2.play();
-    game_music2.setVolume(200);
-
-            //game_music2.setLoop(true);
 
             Window.draw(gameover);
             Window.display();
@@ -373,7 +366,7 @@ Music game_music2;
 
         }
         else
-        {
+        { game_music2.play();
             // Window.clear();
             Window.draw(sBG);
             Window.draw(sB);
