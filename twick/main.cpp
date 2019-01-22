@@ -1,5 +1,5 @@
 
-#include <SFML/Window.hpp>
+#include "SFML/Window.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
@@ -23,14 +23,27 @@ Music music2;
 
 bool stopmusic = false;
 
-
-
+int gethigh()
+    {
+        int high;
+        std::freopen("save/score.dat","r",stdin);
+        std::scanf("%d",&high);
+        std::fclose(stdin);
+        return high;
+    }
+void print_high(int high)
+{
+    std::freopen("save/score.dat","w",stdout);
+    std::printf("%d\n",high);
+    std::fclose(stdout);
+    return ;
+}
 
 
 int main()
 {
 
-    int score=0;
+    int score=0,highscore=gethigh();
 
 
     RenderWindow Window(VideoMode(1120, 950), "WALL BREAKER!!!");
@@ -39,6 +52,7 @@ int main()
     Font font1;
     Font font2;
     Font font3;
+    Font font4;
 
 
     Music game_music;
@@ -48,47 +62,58 @@ int main()
    Music game_music2;
     game_music2.openFromFile("music/GameOVER.ogg");
     game_music2.setVolume(500);
+    Music game_music3;
+    game_music3.openFromFile("music/awesome.ogg");
+    game_music3.setVolume(500);
+
 
 
     if(!stopmusic)
         game_music.play();
 
 
-    Texture t1,t2,t3,t4;
+    Texture t1,t2,t3,t4,t5;
     t1.loadFromFile("images/block03.png");
     t2.loadFromFile("images/background_1.jpg");
     t3.loadFromFile("images/ball.png");
     t4.loadFromFile("images/tui.png");
-    
+    t5.loadFromFile("images/menu.jpg");
+
     font1.loadFromFile("fonts/Denka Demo.ttf");
     font2.loadFromFile("fonts/COLONNA.ttf");
     font3.loadFromFile("fonts/ALGER.ttf");
-   
+    font4.loadFromFile("fonts/ARLRDBD.ttf");
+
 
     //sf::Clock clock;
     //sf::Clock clock2;
     bool playscreen = false;
 
+
+
     Text h1,m1,m2,m3,m4;
     h1.setFont(font1);
-    h1.setCharacterSize(60);
-    h1.setPosition(400, 150);
-    h1.setFillColor(Color::Yellow);
+    h1.setCharacterSize(70);
+    h1.setPosition(380, 150);
+    h1.setFillColor(Color::Red);
     h1.setString("WALL BREAKER");
     h1.setRotation(0);
-    h1.setOutlineThickness(5);
+    h1.Bold;
+    h1.Italic;
+
+    h1.setOutlineThickness(10);
     h1.setOutlineColor(Color::White);
 
-    m1.setFont(font2);
+    m1.setFont(font3);
     m1.setCharacterSize(50);
     m1.setPosition(510, 300);
-    m1.setFillColor(Color::Blue);
+    m1.setFillColor(Color::Yellow);
     m1.setString("PLAY");
     m1.setOutlineColor(Color::White);
     m1.setOutlineThickness(2);
     m1.Italic;
 
-    m2.setFont(font2);
+    m2.setFont(font3);
     m2.setCharacterSize(50);
     m2.setPosition(510, 600);
     m2.setFillColor(Color::Blue);
@@ -98,7 +123,7 @@ int main()
     m2.Italic;
 
 
-    m3.setFont(font2);
+    m3.setFont(font3);
     m3.setCharacterSize(50);
     m3.setPosition(510, 400);
     m3.setFillColor(Color::Blue);
@@ -108,11 +133,11 @@ int main()
     m3.Italic;
 
 
-    m4.setFont(font2);
+    m4.setFont(font3);
     m4.setCharacterSize(50);
     m4.setPosition(510, 500);
     m4.setFillColor(Color::Blue);
-    m4.setString("INSTRUCTIONS");
+    m4.setString("Highscore");
     m4.setOutlineColor(Color::White);
     m4.setOutlineThickness(2);
     m4.Italic;
@@ -153,7 +178,7 @@ int main()
 
         if (collision2.contains(point))
         {
-            m2.setFillColor(Color::Black);
+            m2.setFillColor(Color::Red);
             if (Mouse::isButtonPressed(Mouse::Button::Left))
                 //if (Keyboard::isKeyPressed(Keyboard::Down))
             {
@@ -163,26 +188,27 @@ int main()
         }
         else
         {
-            m2.setFillColor(Color::Magenta);
+            m2.setFillColor(Color::Green);
         }
 
         if (collision3.contains(point))
         {
-            h1.setFillColor(Color::Yellow);
+            h1.setFillColor(Color::Red);
             if (Mouse::isButtonPressed(Mouse::Button::Left))
                 //if (Keyboard::isKeyPressed(Keyboard::Down))
             {
+
 
             }
         }
         else
         {
-            h1.setFillColor(Color::Black);
+            h1.setFillColor(Color::Green);
         }
 
         if (collision4.contains(point))
         {
-            m3.setFillColor(Color::White);
+            m3.setFillColor(Color::Red);
             if (Mouse::isButtonPressed(Mouse::Left))
                 //if (Keyboard::isKeyPressed(Keyboard::Enter))
             {
@@ -202,30 +228,32 @@ int main()
         }
         else
         {
-            m3.setFillColor(Color::Red);
+            m3.setFillColor(Color::Green);
         }
         if (collision5.contains(point))
         {
-            m3.setFillColor(Color::White);
+            m3.setFillColor(Color::Red);
             if (Mouse::isButtonPressed(Mouse::Left))
                 //if (Keyboard::isKeyPressed(Keyboard::Enter))
             {
+                string ss="Highscore:  ";
+                ss+=to_string(highscore);
+                m4.setString(ss);
 
-                m4.setString("Use left and right arrow to move the paddle");
-              
             }
 
-            //else //if (Keyboard::isKeyPressed(Keyboard::Enter))
-            else    if(Mouse::isButtonPressed(Mouse::Right))
-            {
-                m3.setString("MUSIC ON");
-                stopmusic = false;
-                game_music.play();
-            }
+
+        }
+        else
+        {
+            m4.setFillColor(Color::Green);
         }
 
 
+
         Window.clear();
+         Sprite sBG2(t5);
+    Window.draw(sBG2);
         Window.draw(m2);
         Window.draw(h1);
         Window.draw(m3);
@@ -269,11 +297,20 @@ int main()
     Text high;
     high.setString("Score: 0");
     high.setPosition(00,800);
-    high.setFillColor(Color::White);
+    high.setFillColor(Color::Cyan);
     high.setCharacterSize(40);
-    high.setOutlineThickness(2);
-    high.setOutlineColor(Color::Black);
-    high.setFont(font3);
+    high.setOutlineThickness(1);
+    high.setOutlineColor(Color::Transparent);
+    high.setFont(font4);
+
+    Text high2;
+    high2.setString("HighScore: %d");
+    high2.setPosition(00,760);
+    high2.setFillColor(Color::Yellow);
+    high2.setCharacterSize(40);
+    high2.setOutlineThickness(1);
+    high2.setOutlineColor(Color::Black);
+    high2.setFont(font4);
 
 
 
@@ -311,9 +348,16 @@ int main()
                 dx=-dx;
                 hey.openFromFile("sounds/brick1.wav");
                 hey.setVolume(100);
-                if(!stopmusic)
+
                     hey.play();
+
                 score+=10;
+                if(score>highscore)
+                {
+                    highscore=score;
+                    print_high(highscore);
+
+                }
             }
 
         y+=dy;
@@ -324,18 +368,26 @@ int main()
                 dy=-dy;
                 hey.openFromFile("sounds/brick1.wav");
                 hey.setVolume(100);
-                if(!stopmusic)
-                    hey.play();
-                score+=10;
-            }
 
+                    hey.play();
+
+                score+=10;
+                if(score>highscore)
+                {
+
+                    highscore=score;
+                    print_high(highscore);
+
+                    game_music3.play();
+                }
+            }
 
         if (x<0 || x>1120)
             dx=-dx;
         if(y<0)
             dy=-dy;
 
-//    If(sB.getPosition.y()>1120 ) gameover = true;
+
 
 
 
@@ -367,17 +419,22 @@ int main()
         }
         else
         { game_music2.play();
-            // Window.clear();
+
             Window.draw(sBG);
             Window.draw(sB);
             Window.draw(sP);
-            //Window.draw(gameover);
+
 
             for (int i=0; i<n; i++)
                 Window.draw(P[i]);
             string ss="Score: ";
             ss+=to_string(score);
             high.setString(ss);
+            Window.draw(high);
+            string sd="HighScore: ";
+            sd+=to_string(highscore);
+            high2.setString(sd);
+            Window.draw(high2);
             Window.draw(high);
             Window.display();
             Window.clear();
@@ -389,4 +446,3 @@ int main()
 
     return 0;
 }
-
