@@ -1,0 +1,105 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+const ll MOD=100000007;
+const ll INF=100000000;
+const int MX=100000+50000+5;
+ 
+int ara[MX],tree[MX*4];
+bool board[MX];
+int n,q,cmd;
+ 
+ 
+int mod_query(int node, int b, int e,int k)
+{
+    if(tree[node]<k){
+        //cout<<tree[node]<<endl;
+        //cout<<node<<endl;
+        return -1;
+    }
+ 
+    if(tree[node]==k && board[e]){
+        return e;
+    }
+    int Left = node * 2;
+    int Right = node * 2 + 1;
+    int mid = (b + e) / 2;
+    //cout<<tree[Left]<<' '<<tree[Right]<<endl;
+    int re;
+    if(tree[Left]>=k){
+        re=mod_query(Left,b,mid,k);
+    }else{
+        re=mod_query(Right,mid+1,e,k-tree[Left]);
+    }
+    return re;
+}
+void update(int node, int b, int e, int i, int newvalue)
+{
+    if (i > e || i < b)
+        return;
+    if (b >= i && e <= i) {
+        tree[node] = newvalue;
+        board[b]=newvalue;
+        return;
+    }
+    int Left = node * 2;
+    int Right = node * 2 + 1;
+    int mid = (b + e) / 2;
+ 
+    update(Left, b, mid, i, newvalue);
+    update(Right, mid + 1, e, i, newvalue);
+    tree[node] = tree[Left] + tree[Right];
+}
+ 
+int main()
+{
+    //freopen("out.txt","w",stdout);
+    //freopen("in.txt","r",stdin);
+ 
+    int t;
+ 
+    scanf("%d",&t);
+ 
+    for(int tc=1;tc<=t;tc++){
+        memset(tree,0,sizeof tree);
+ 
+        scanf("%d%d",&n,&q);
+ 
+        for(int i=1;i<=n;i++){
+            scanf("%d",&ara[i]);
+            board[i]=1;
+            update(1,1,MX-5,i,1);
+        }
+ 
+        char ch;
+ 
+        printf("Case %d:\n",tc);
+ 
+        while(q--){
+            scanf(" %c%d",&ch,&cmd);
+            if(ch=='c'){
+                int indx=mod_query(1,1,MX-5,cmd);
+                //cout<<indx<<endl;
+                if(indx==-1){
+                    printf("none\n");
+                }else{
+                    printf("%d\n",ara[indx]);
+                    board[indx]=0;
+                    update(1,1,MX-5,indx,0);
+                }
+ 
+            }else{
+                n++;
+                ara[n]=cmd;
+                board[n]=1;
+                update(1,1,MX-5,n,1);
+            }
+        }
+    }
+ 
+ 
+ 
+ 
+ 
+ 
+}

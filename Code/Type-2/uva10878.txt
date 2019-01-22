@@ -1,0 +1,28 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+
+
+int main()
+{
+
+    string str;
+    getline(cin,str);
+
+    vector<string>tape;
+    while(getline(cin,str)){
+        tape.push_back(str);
+    }
+
+    for(int i=0;i<tape.size()-1;i++){
+        int val=0,p=1;
+        for(int j=tape[i].size()-2;j>0;j--){
+            if(tape[i][j]=='o'){
+                val=val+p;
+            }
+            if(tape[i][j]!='.')
+                p*=2;
+        }
+        printf("%c",(char)val);
+    }
+}

@@ -1,0 +1,62 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define INF 1<<18
+typedef long long ll;
+typedef pair<ll,ll> pii;
+ 
+ll dis[550];
+bool vis[550];
+int path(ll s,ll n,vector<pii>graph[])
+{
+    memset(vis,false,sizeof vis);
+    for(int i=1;i<=n;i++){
+        dis[i]=INF;
+    }
+    priority_queue<pii,vector<pii>,greater<pii> >pQ;
+    pQ.push(make_pair(0,s));
+    dis[s]=0;
+    while(!pQ.empty()){
+        ll u=pQ.top().second;
+        ll w=pQ.top().first;
+        pQ.pop();
+        if(vis[u]) continue;
+        vis[u]=1;
+        for(int i=0;i<graph[u].size();i++){
+            ll v=graph[u][i].first;
+            ll cost=graph[u][i].second;
+            if(dis[v]>dis[u]+cost){
+                dis[v]=dis[u]+cost;
+                pQ.push(make_pair(dis[v],v));
+            }
+        }
+    }
+    return dis[n];
+}
+ 
+ 
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int t;
+    cin>>t;
+    for(int tc=1;tc<=t;tc++){
+        ll b,n,e,u,v,w;
+        vector<pii>graph[150];
+        cin>>n>>e;
+        for(int i=0;i<e;i++){
+            cin>>u>>v>>w;
+            graph[u].push_back(make_pair(v,w));
+            graph[v].push_back(make_pair(u,w));
+        }
+ 
+        //printf("Case %d:\n",tc);
+        cout<<"Case "<<tc<<": ";
+        ll dist=path(1,n,graph);
+        if(dist==INF){
+            cout<<"Impossible\n";
+        }else{
+            cout<<dist<<endl;
+        }
+    }
+}
