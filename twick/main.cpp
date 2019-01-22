@@ -19,11 +19,6 @@ Music music;
 Music music2;
 
 
-Texture loading;
-Texture texture;
-
-Sprite sprite;
-
 
 
 bool stopmusic = false;
@@ -49,11 +44,8 @@ int main()
     Music game_music;
 
     game_music.openFromFile("music/music.ogg");
-    game_music.setVolume(15);
-    Music gameover_music;
-    Music game_music2;
-    game_music2.openFromFile("music/GameOVER.ogg");
-    game_music2.setVolume(200);
+    game_music.setVolume(25);
+   
 
 
     if(!stopmusic)
@@ -65,13 +57,11 @@ int main()
     t2.loadFromFile("images/background_1.jpg");
     t3.loadFromFile("images/ball.png");
     t4.loadFromFile("images/tui.png");
-    texture.loadFromFile("images/score.png");
+    
     font1.loadFromFile("fonts/Denka Demo.ttf");
     font2.loadFromFile("fonts/COLONNA.ttf");
     font3.loadFromFile("fonts/ALGER.ttf");
-    Vector2u size = texture.getSize();
-    sprite.setTexture(texture);
-
+   
 
     //sf::Clock clock;
     //sf::Clock clock2;
@@ -366,8 +356,13 @@ int main()
             game_music.stop();
 
 
-            game_music2.play();
+Music game_music2;
 
+    
+    game_music2.openFromFile("music/GameOVER.ogg");
+    if(!stopmusic)
+        game_music2.play();
+    game_music2.setVolume(200);
 
             //game_music2.setLoop(true);
 
